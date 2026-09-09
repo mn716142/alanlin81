@@ -1939,7 +1939,7 @@ footer {
                 action="https://docs.google.com/forms/d/e/1FAIpQLSfGxra4JNj6wUHtL3OhisH7syVDJjf663hKWnkS08q_aeNLjw/formResponse"
                 target="hidden_iframe"
                 method="POST"
-                onsubmit="return submitRSVP(event)"
+                
             >
 
 
@@ -2114,10 +2114,6 @@ footer {
                                 全素
                             </option>
 
-                            <option value="其他">
-                                其他
-                            </option>
-
                         </select>
 
                     </div>
@@ -2148,7 +2144,7 @@ footer {
                      SUBMIT
                 ================================================= -->
 
-                <button type="submit" class="submit-button">
+                <button type="button" class="submit-button" onclick="submitRSVP()">
                     送出回函 · SUBMIT RSVP
                 </button>
 
@@ -2511,20 +2507,20 @@ guestsInput.addEventListener(
    HIDDEN IFRAME FORM SUBMISSION
 ========================================================= */
 
-function submitRSVP(event) {
-    if (event) event.preventDefault();
+function submitRSVP() {
 
     const form = document.getElementById("rsvpForm");
     const guests = Number(document.getElementById("guests").value);
     const childSeat = document.getElementById("childSeat");
     const diet = document.getElementById("diet");
 
+    // 先檢查必要欄位
     if (!form.checkValidity()) {
         form.reportValidity();
-        return false;
+        return;
     }
 
-    // 午宴人數為 0 時，不送兒童座椅與飲食欄位。
+    // 午宴人數為 0 時，不送兒童座椅與飲食欄位
     if (guests > 0) {
         childSeat.disabled = false;
         diet.disabled = false;
@@ -2535,26 +2531,20 @@ function submitRSVP(event) {
         diet.value = "";
     }
 
-    // 直接使用原生 HTML POST 到 Google Forms。
-    form.submit();
+    // 明確呼叫原生 HTMLFormElement.submit()，避免被其他元素或 JS 影響。
+    HTMLFormElement.prototype.submit.call(form);
 
-    // 無法跨網域讀取 Google Forms 回應，因此顯示完成訊息。
+    // Google Forms 在 hidden iframe 中接收資料，網站本身不跳頁。
     setTimeout(() => {
-        document.getElementById("submitMessage").style.display = "block";
+        const message = document.getElementById("submitMessage");
+        if (message) message.style.display = "block";
         form.reset();
         updateConditionalFields();
         childSeat.disabled = false;
         diet.disabled = false;
     }, 1200);
-
-    return false;
 }
 </script>
-<iframe
-    name="hidden_iframe"
-    id="hidden_iframe"
-    style="display:none;">
-</iframe>
 </body>
 </html>
 ```
