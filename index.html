@@ -2141,10 +2141,7 @@ footer {
                      SUBMIT
                 ================================================= -->
 
-                <button
-                    type="submit"
-                    class="submit-button"
-                >
+                <<button type="button" onclick="submitRSVP()">
                     送出回函 · SUBMIT RSVP
                 </button>
 
@@ -2591,7 +2588,11 @@ function submitRSVP() {
     }, 1500);
 }
 </script>
-
+<iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style="display:none;">
+</iframe>
 </body>
 </html>
 ```
