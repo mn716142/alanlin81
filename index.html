@@ -1,0 +1,2076 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>阿平 & 珮瑜｜平凡人生，因瑜而美</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+    --warm: #d4a373;
+    --sage: #8da399;
+    --cream: #f6f1e9;
+    --paper: #fffdfa;
+    --ink: #403c37;
+    --muted: #7e7770;
+    --line: rgba(64,60,55,.13);
+    --white: rgba(255,255,255,.92);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Noto Serif TC", serif;
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =====================================================
+   MOBILE NO-WRAP
+===================================================== */
+
+.no-wrap {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.navbar {
+    position: fixed;
+    z-index: 1000;
+
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(92%, 720px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 35px;
+
+    padding: 12px 25px;
+
+    background: rgba(255,255,255,.58);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50px;
+
+    box-shadow:
+        0 10px 35px rgba(55,45,35,.08);
+}
+
+.navbar a {
+    white-space: nowrap;
+
+    font-size: 13px;
+    letter-spacing: .12em;
+
+    transition: .3s ease;
+}
+
+.navbar a:hover {
+    color: var(--warm);
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+    position: relative;
+
+    width: 100%;
+    height: 100svh;
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(20,18,15,.04),
+            rgba(20,18,15,.38)
+        ),
+        url("https://i.postimg.cc/9M378vL8/S-99533002.jpg")
+        center center / cover no-repeat;
+
+    color: white;
+    text-align: center;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 45%,
+            rgba(0,0,0,.30)
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    padding: 30px;
+}
+
+.hero-date {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: clamp(17px, 3vw, 25px);
+
+    letter-spacing: .28em;
+
+    margin-bottom: 25px;
+}
+
+.hero-names {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: clamp(65px, 12vw, 135px);
+
+    font-weight: 500;
+
+    line-height: .9;
+
+    letter-spacing: .03em;
+
+    white-space: nowrap;
+}
+
+.hero-names .amp {
+    font-size: .55em;
+    opacity: .8;
+    margin: 0 .12em;
+}
+
+.hero-slogan {
+    margin-top: 35px;
+
+    font-size: clamp(15px, 2vw, 20px);
+
+    letter-spacing: .28em;
+}
+
+.hero-scroll {
+    margin-top: 55px;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 13px;
+
+    letter-spacing: .2em;
+
+    opacity: .8;
+}
+
+/* =====================================================
+   COMMON SECTION
+===================================================== */
+
+section {
+    padding: 110px 20px;
+}
+
+.section-inner {
+    width: min(92%, 900px);
+    margin: auto;
+}
+
+.section-label {
+    font-family: "Cormorant Garamond", serif;
+
+    color: var(--warm);
+
+    text-align: center;
+
+    font-size: 15px;
+
+    letter-spacing: .28em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 10px;
+}
+
+.section-title {
+    text-align: center;
+
+    font-size: clamp(28px, 5vw, 42px);
+
+    font-weight: 500;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 50px;
+}
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.about {
+    background: var(--paper);
+}
+
+.about-copy {
+    max-width: 650px;
+
+    margin: auto;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 16px;
+}
+
+.about-names {
+    margin-top: 40px;
+
+    text-align: center;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 44px;
+
+    color: var(--sage);
+}
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+.countdown-section {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(212,163,115,.13),
+            transparent 65%
+        ),
+        var(--cream);
+}
+
+.countdown {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: nowrap;
+}
+
+.count-card {
+    min-width: 105px;
+
+    padding: 21px 14px;
+
+    background: var(--white);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 14px 38px rgba(65,55,45,.10),
+        0 3px 10px rgba(65,55,45,.05);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    border: 1px solid rgba(255,255,255,.9);
+}
+
+.count-number {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 50px;
+
+    line-height: 1;
+
+    font-weight: 500;
+
+    min-width: 45px;
+
+    text-align: center;
+}
+
+.count-divider {
+    width: 1px;
+
+    height: 34px;
+
+    background: rgba(64,60,55,.20);
+}
+
+.count-label {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 13px;
+
+    color: var(--muted);
+
+    letter-spacing: .08em;
+
+    white-space: nowrap;
+}
+
+/* =====================================================
+   V-CARD
+===================================================== */
+
+.v-cards {
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 20px;
+}
+
+.v-card {
+    position: relative;
+
+    padding: 40px 30px;
+
+    background: rgba(255,255,255,.72);
+
+    border: 1px solid rgba(255,255,255,.9);
+
+    border-radius: 4px 4px 32px 32px;
+
+    box-shadow:
+        0 15px 40px rgba(65,55,45,.07);
+
+    text-align: center;
+}
+
+.v-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 1px;
+
+    height: 24px;
+
+    background: var(--warm);
+}
+
+.v-icon {
+    font-family: "Cormorant Garamond", serif;
+
+    color: var(--warm);
+
+    font-size: 27px;
+
+    margin-bottom: 12px;
+}
+
+.v-title {
+    font-size: 17px;
+
+    letter-spacing: .12em;
+
+    margin-bottom: 15px;
+}
+
+.v-content {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+/* =====================================================
+   TRANSPORT
+===================================================== */
+
+.transport {
+    background: var(--sage);
+
+    color: white;
+}
+
+.transport .section-label {
+    color: rgba(255,255,255,.72);
+}
+
+.transport .section-title {
+    color: white;
+}
+
+.accordion {
+    max-width: 720px;
+
+    margin: auto;
+}
+
+.accordion-item {
+    border-bottom:
+        1px solid rgba(255,255,255,.28);
+}
+
+.accordion-button {
+    width: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: white;
+
+    padding: 22px 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    font-family: "Noto Serif TC", serif;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+.accordion-arrow {
+    font-size: 21px;
+
+    transition: transform .35s ease;
+}
+
+.accordion-item.active .accordion-arrow {
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition:
+        max-height .45s ease;
+}
+
+.accordion-content-inner {
+    padding:
+        0 5px 25px;
+
+    color:
+        rgba(255,255,255,.85);
+
+    font-size: 14px;
+}
+
+/* =====================================================
+   RSVP
+===================================================== */
+
+.rsvp {
+    background: var(--paper);
+}
+
+.form-box {
+    max-width: 680px;
+
+    margin: auto;
+}
+
+.field {
+    margin-bottom: 26px;
+}
+
+.field label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 13px;
+
+    letter-spacing: .12em;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.70);
+
+    color: var(--ink);
+
+    font-family:
+        "Noto Serif TC", serif;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: .3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--warm);
+
+    box-shadow:
+        0 0 0 3px rgba(212,163,115,.11);
+}
+
+textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+.conditional {
+    display: none;
+
+    animation:
+        fadeIn .4s ease;
+}
+
+.conditional.show {
+    display: block;
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.submit-button {
+    width: 100%;
+
+    border: 0;
+
+    border-radius: 50px;
+
+    padding: 17px;
+
+    background: var(--warm);
+
+    color: white;
+
+    font-family:
+        "Noto Serif TC", serif;
+
+    font-size: 15px;
+
+    letter-spacing: .15em;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(212,163,115,.25);
+}
+
+.submit-message {
+    display: none;
+
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: var(--sage);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    padding: 65px 20px;
+
+    background: var(--ink);
+
+    color: rgba(255,255,255,.75);
+
+    text-align: center;
+}
+
+.footer-names {
+    font-family:
+        "Cormorant Garamond", serif;
+
+    font-size: 40px;
+
+    color: white;
+
+    margin-bottom: 8px;
+}
+
+.footer-slogan {
+    font-size: 13px;
+
+    letter-spacing: .18em;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px) {
+
+    .navbar {
+        width: 94%;
+
+        gap: 15px;
+
+        padding:
+            11px 14px;
+    }
+
+    .navbar a {
+        font-size: 11px;
+
+        letter-spacing: .04em;
+    }
+
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-names {
+        font-size: 62px;
+    }
+
+    .hero-date {
+        font-size: 15px;
+
+        letter-spacing: .18em;
+    }
+
+    .hero-slogan {
+        font-size: 14px;
+
+        letter-spacing: .14em;
+    }
+
+    section {
+        padding: 80px 17px;
+    }
+
+    .countdown {
+        gap: 6px;
+    }
+
+    .count-card {
+        min-width: 0;
+
+        flex: 1;
+
+        padding:
+            15px 5px;
+
+        gap: 5px;
+
+        border-radius: 14px;
+    }
+
+    .count-number {
+        font-size: 35px;
+
+        min-width: 32px;
+    }
+
+    .count-divider {
+        height: 27px;
+    }
+
+    .count-label {
+        font-size: 9px;
+    }
+
+    .v-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .v-card {
+        padding:
+            35px 20px;
+    }
+
+}
+
+/* 超小螢幕 */
+@media(max-width:380px) {
+
+    .navbar {
+        gap: 9px;
+    }
+
+    .navbar a {
+        font-size: 10px;
+    }
+
+    .hero-names {
+        font-size: 53px;
+    }
+
+    .count-card {
+        padding:
+            13px 3px;
+    }
+
+    .count-number {
+        font-size: 30px;
+    }
+
+    .count-label {
+        font-size: 8px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navbar">
+
+    <a href="#about">
+        關於我們
+    </a>
+
+    <a href="#details">
+        婚禮詳情
+    </a>
+
+    <a href="#rsvp">
+        出席回函
+    </a>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-date">
+            2027.01.17 · 12:20
+        </div>
+
+        <div class="hero-names">
+            阿平
+            <span class="amp">&</span>
+            珮瑜
+        </div>
+
+        <div class="hero-slogan">
+            平凡人生，因瑜而美
+        </div>
+
+        <div class="hero-scroll">
+            SCROLL TO DISCOVER
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    class="about"
+    id="about"
+>
+
+    <div class="section-inner">
+
+        <div class="section-label">
+            OUR STORY
+        </div>
+
+        <h2 class="section-title">
+            關於我們
+        </h2>
+
+        <div class="about-copy">
+
+            <p>
+                人海茫茫，我們遇見彼此。
+                <br>
+                從平凡的日常，
+                到決定共度往後的每一個日子。
+            </p>
+
+            <p style="margin-top:20px;">
+                謝謝你一路見證我們的故事，
+                <br>
+                也誠摯邀請你來到這一天，
+                一起分享屬於我們的幸福。
+            </p>
+
+        </div>
+
+        <div class="about-names">
+            林致平 & 李珮瑜
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COUNTDOWN
+===================================================== -->
+
+<section class="countdown-section">
+
+    <div class="section-inner">
+
+        <div class="section-label">
+            COUNTDOWN
+        </div>
+
+        <h2 class="section-title">
+            距離我們的大日子
+        </h2>
+
+        <div class="countdown">
+
+            <div class="count-card">
+
+                <div
+                    class="count-number"
+                    id="days"
+                >
+                    000
+                </div>
+
+                <div class="count-divider"></div>
+
+                <div class="count-label">
+                    DAYS
+                </div>
+
+            </div>
+
+
+            <div class="count-card">
+
+                <div
+                    class="count-number"
+                    id="hours"
+                >
+                    00
+                </div>
+
+                <div class="count-divider"></div>
+
+                <div class="count-label">
+                    HOURS
+                </div>
+
+            </div>
+
+
+            <div class="count-card">
+
+                <div
+                    class="count-number"
+                    id="minutes"
+                >
+                    00
+                </div>
+
+                <div class="count-divider"></div>
+
+                <div class="count-label">
+                    MIN
+                </div>
+
+            </div>
+
+
+            <div class="count-card">
+
+                <div
+                    class="count-number"
+                    id="seconds"
+                >
+                    00
+                </div>
+
+                <div class="count-divider"></div>
+
+                <div class="count-label">
+                    SEC
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WEDDING DETAILS
+===================================================== -->
+
+<section id="details">
+
+    <div class="section-inner">
+
+        <div class="section-label">
+            WEDDING DETAILS
+        </div>
+
+        <h2 class="section-title">
+            婚禮詳情
+        </h2>
+
+        <div class="v-cards">
+
+
+            <div class="v-card">
+
+                <div class="v-icon">
+                    01
+                </div>
+
+                <div class="v-title">
+                    婚禮日期
+                </div>
+
+                <div class="v-content">
+
+                    <span class="no-wrap">
+                        2027年1月17日
+                    </span>
+
+                    <br>
+
+                    星期日
+
+                </div>
+
+            </div>
+
+
+            <div class="v-card">
+
+                <div class="v-icon">
+                    02
+                </div>
+
+                <div class="v-title">
+                    婚禮時間
+                </div>
+
+                <div class="v-content">
+
+                    <span class="no-wrap">
+                        中午 12:20
+                    </span>
+
+                    <br>
+
+                    午宴
+
+                </div>
+
+            </div>
+
+
+            <div class="v-card">
+
+                <div class="v-icon">
+                    03
+                </div>
+
+                <div class="v-title">
+                    婚禮地點
+                </div>
+
+                <div class="v-content">
+
+                    <span class="no-wrap">
+                        【台北花園大酒店Taipei Garden Hotel】
+                    </span>
+
+                    <br>
+
+                    【台北市中正區中華路二段1號2F】
+
+                </div>
+
+            </div>
+
+
+            <div class="v-card">
+
+                <div class="v-icon">
+                    04
+                </div>
+
+                <div class="v-title">
+                    DRESS CODE
+                </div>
+
+                <div class="v-content">
+
+                    舒適、自在即可
+
+                    <br>
+
+                    歡迎穿上你的美好
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TRANSPORTATION
+===================================================== -->
+
+<section class="transport">
+
+    <div class="section-inner">
+
+        <div class="section-label">
+            TRANSPORTATION
+        </div>
+
+        <h2 class="section-title">
+            交通指引
+        </h2>
+
+
+        <div class="accordion">
+
+
+            <!-- MRT -->
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        捷運 MRT
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner">
+
+                        搭乘捷運至
+
+                        <strong class="no-wrap">
+                            【鄰近捷運小南門站（步行約3-6分鐘）與西門站（步行約7-10分鐘）】
+                        </strong>
+
+                        <br>
+
+                        抵達婚宴場地。
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUS -->
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        公車 BUS
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner">
+
+                        可搭乘公車路線：202、212、218、260、262、307、310、604等
+                     <br>
+
+                        <strong class="no-wrap">
+                            【聯合醫院和平院區站（或稱和平醫院站）】
+                        </strong>
+
+                        下車。
+
+                        <br>
+
+                        步行即可抵達。
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CAR -->
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        自行開車 DRIVING
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner">
+
+                        導航搜尋：【台北花園大酒店停車場】
+
+                        <br>
+                        <strong class="no-wrap">
+                            【由國道一號前來】
+
+                        </strong>
+                        <br>
+沿國道一號北上前往台北，於環河南北快速道路/環河快速道路「桂林路出口」 下交流道後，左轉桂林路直行，往愛國西路 54 巷方向行駛，即可抵達本飯店後車道出入口。請於愛國西路 54 巷右轉進入後車道，飯店停車場出入口即位於右手邊。
+
+                       <br>
+
+                       
+
+                        <strong class="no-wrap">
+                            【由國道三號前來】
+
+                        </strong>
+                        <br>
+
+沿國道三號北上後，接續行駛新北市特一號道路/民生路二段/民生陸橋(大漢橋/長江路/文化路)/106 甲縣道，於台 64 線「20-板橋出口」下交流道。之後依序經由華翠大橋和艋舺大道前往愛國西路 54 巷，右轉進入後車道後，即可看到本飯店停車場出入口，位於您的右手邊。
+                        <br>
+<span style="color:#FFFF77">
+
+                        本飯店設有地下平面停車場，入口位於愛國西路 54 巷，車輛限高 2 公尺。凡入住旅客，每房可享免費停車乙輛（限小型車或廂型車）。車位數量有限，採先到先停的方式，恕不提供預留服務。
+</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TAXI -->
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        計程車 / Uber
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner">
+
+                        可直接提供司機：
+
+                        <strong class="no-wrap">
+                            【台北花園大酒店】
+                        </strong>
+
+                        <br>
+
+                        或使用地址導航:【台北市中正區中華路二段1號】
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RSVP
+===================================================== -->
+
+<section
+    class="rsvp"
+    id="rsvp"
+>
+
+    <div class="section-inner">
+
+        <div class="section-label">
+            RSVP
+        </div>
+
+        <h2 class="section-title">
+            出席回函
+        </h2>
+
+
+        <div class="form-box">
+
+
+            <!--
+                隱藏式 IFRAME
+
+                表單提交後不離開目前婚禮網站
+            -->
+
+            <iframe
+                name="hidden_iframe"
+                id="hidden_iframe"
+                style="display:none;"
+            ></iframe>
+
+
+            <form
+                id="rsvpForm"
+                target="hidden_iframe"
+                method="POST"
+                onsubmit="submitRSVP(event)"
+            >
+
+
+                <!-- 姓名 -->
+
+                <div class="field">
+
+                    <label for="name">
+                        姓名 NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 是否出席 -->
+
+                <div class="field">
+
+                    <label for="attendance">
+                        出席身分 ATTENDANCE
+                    </label>
+
+                    <select
+                        id="attendance"
+                        required
+                    >
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="出席">
+                            出席
+                        </option>
+
+                        <option value="無法出席">
+                            無法出席
+                        </option>
+
+                    </select>
+
+<!-- 親友身分 -->
+
+<div class="field">
+
+    <label for="relationship">
+        親友身分 RELATIONSHIP
+    </label>
+
+    <select
+        id="relationship"
+        required
+    >
+
+        <option value="">
+            請選擇
+        </option>
+
+        <option value="男方親友">
+            男方親友
+        </option>
+
+        <option value="女方親友">
+            女方親友
+        </option>
+
+    </select>
+
+</div>
+
+                <!-- 午宴人數 -->
+
+                <div class="field">
+
+                    <label for="guests">
+                        參加午宴人數 GUESTS
+                    </label>
+
+                    <input
+                        type="number"
+                        id="guests"
+                        min="0"
+                        max="20"
+                        inputmode="numeric"
+                        value=""
+                        required
+                    >
+
+                </div>
+
+
+                <!--
+                    智能條件區
+
+                    只有午宴人數 > 0 才顯示
+                -->
+
+                <div
+                    id="conditionalFields"
+                    class="conditional"
+                >
+
+
+                    <!-- 飲食需求 -->
+
+                    <div class="field">
+
+                        <label for="diet">
+                            飲食需求 DIETARY REQUIREMENTS
+                        </label>
+
+                        <select id="diet">
+
+                            <option value="">
+                                無特殊需求
+                            </option>
+
+                            <option value="素食">
+                                素食
+                            </option>
+
+                            <option value="其他">
+                                其他
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- 兒童椅 -->
+
+                    <div class="field">
+
+                        <label for="childSeat">
+                            是否需要兒童椅 CHILD SEAT
+                        </label>
+
+                        <select id="childSeat">
+
+                            <option value="">
+                                請選擇
+                            </option>
+
+                            <option value="需要">
+                                需要
+                            </option>
+
+                            <option value="不需要">
+                                不需要
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- 備註 -->
+
+                <div class="field">
+
+                    <label for="message">
+                        備註 MESSAGE & 給新人的祝福 BLESSINGS
+                    </label>
+
+                    <textarea
+                        id="message"
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    送出回函 · SUBMIT RSVP
+                </button>
+
+
+                <div
+                    class="submit-message"
+                    id="submitMessage"
+                >
+                    謝謝你的回覆，我們婚禮見。
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-names">
+        阿平 & 珮瑜
+    </div>
+
+    <div class="footer-slogan">
+        平凡人生，因瑜而美
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   GOOGLE FORM CONFIG
+===================================================== */
+
+const FORM_ID =
+"1FAIpQLSfGxra4JNj6wUHtL3OhisH7syVDJjf663hKWnkS08q_aeNLjw";
+
+
+/*
+    從你提供的預填網址中提取出的 Entry ID
+
+    AAAA 等預填內容完全沒有放進來。
+*/
+
+const ENTRY = {
+
+    name:
+         "entry.662027596",
+    relationship:
+         "entry.694681250"
+
+    attendance:
+        "entry.694681250",
+
+    guests:
+        "entry.160211656",
+
+    childSeat:
+        "entry.684329717",
+
+    diet:
+        "entry.738087618",
+
+    message:
+        "entry.1481376237"
+
+};
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+const weddingDate =
+    new Date(
+        "2027-01-17T12:20:00+08:00"
+    ).getTime();
+
+
+function updateCountdown() {
+
+    const now =
+        Date.now();
+
+    const distance =
+        weddingDate - now;
+
+
+    if (distance <= 0) {
+
+        document.getElementById("days")
+            .textContent = "000";
+
+        document.getElementById("hours")
+            .textContent = "00";
+
+        document.getElementById("minutes")
+            .textContent = "00";
+
+        document.getElementById("seconds")
+            .textContent = "00";
+
+        return;
+
+    }
+
+
+    const days =
+        Math.floor(
+            distance /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (distance %
+            (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+
+    const minutes =
+        Math.floor(
+            (distance %
+            (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+
+    const seconds =
+        Math.floor(
+            (distance %
+            (1000 * 60)) /
+            1000
+        );
+
+
+    document.getElementById("days")
+        .textContent =
+        String(days).padStart(3,"0");
+
+
+    document.getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+
+    document.getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+
+    document.getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+
+}
+
+
+updateCountdown();
+
+setInterval(
+    updateCountdown,
+    1000
+);
+
+
+/* =====================================================
+   ACCORDION
+===================================================== */
+
+document
+.querySelectorAll(".accordion-button")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const item =
+                button.parentElement;
+
+            const content =
+                item.querySelector(
+                    ".accordion-content"
+                );
+
+            const active =
+                item.classList.contains(
+                    "active"
+                );
+
+
+            /*
+                關閉其他面板
+            */
+
+            document
+            .querySelectorAll(".accordion-item")
+            .forEach(other => {
+
+                other.classList
+                    .remove("active");
+
+                other
+                .querySelector(
+                    ".accordion-content"
+                )
+                .style.maxHeight = null;
+
+            });
+
+
+            /*
+                開啟目前面板
+            */
+
+            if (!active) {
+
+                item.classList
+                    .add("active");
+
+                content.style.maxHeight =
+                    content.scrollHeight +
+                    "px";
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   SMART RSVP
+===================================================== */
+
+const guestsInput =
+    document.getElementById("guests");
+
+const conditionalFields =
+    document.getElementById(
+        "conditionalFields"
+    );
+
+
+function updateConditionalFields() {
+
+    const guests =
+        Number(
+            guestsInput.value
+        );
+
+
+    if (guests > 0) {
+
+        conditionalFields
+            .classList
+            .add("show");
+
+    }
+
+    else {
+
+        conditionalFields
+            .classList
+            .remove("show");
+
+
+        document.getElementById(
+            "diet"
+        ).value = "";
+
+
+        document.getElementById(
+            "childSeat"
+        ).value = "";
+
+    }
+
+}
+
+
+guestsInput.addEventListener(
+    "input",
+    updateConditionalFields
+);
+
+guestsInput.addEventListener(
+    "change",
+    updateConditionalFields
+);
+
+
+/* =====================================================
+   HIDDEN IFRAME GOOGLE FORM SUBMIT
+===================================================== */
+
+function submitRSVP(event) {
+
+    event.preventDefault();
+
+
+    const form =
+        document.getElementById(
+            "rsvpForm"
+        );
+
+
+    /*
+        建立真正送往 Google Form 的表單
+    */
+
+    const submitForm =
+        document.createElement(
+            "form"
+        );
+
+
+    submitForm.method =
+        "POST";
+
+
+    submitForm.target =
+        "hidden_iframe";
+
+
+    submitForm.action =
+        "https://docs.google.com/forms/d/e/"
+        + FORM_ID
+        + "/formResponse";
+
+
+    /*
+        取得使用者輸入
+    */
+
+    const values = {
+
+        name:
+            document.getElementById(
+                "name"
+            ).value,
+
+        attendance:
+            document.getElementById(
+                "attendance"
+            ).value,
+
+        guests:
+            document.getElementById(
+                "guests"
+            ).value,
+
+        diet:
+            document.getElementById(
+                "diet"
+            ).value,
+
+        childSeat:
+            document.getElementById(
+                "childSeat"
+            ).value,
+
+        message:
+            document.getElementById(
+                "message"
+            ).value
+
+    };
+
+
+    /*
+        只有午宴人數 > 0
+        才送出飲食需求與兒童椅
+    */
+
+    const fieldsToSubmit = {
+
+        name:
+            values.name,
+
+        attendance:
+            values.attendance,
+
+        guests:
+            values.guests,
+
+        message:
+            values.message
+
+    };
+
+
+    if (
+        Number(values.guests) > 0
+    ) {
+
+        fieldsToSubmit.diet =
+            values.diet;
+
+        fieldsToSubmit.childSeat =
+            values.childSeat;
+
+    }
+
+
+    /*
+        建立 hidden input
+    */
+
+    Object
+    .keys(fieldsToSubmit)
+    .forEach(key => {
+
+        if (!ENTRY[key]) {
+            return;
+        }
+
+
+        const input =
+            document.createElement(
+                "input"
+            );
+
+
+        input.type =
+            "hidden";
+
+
+        input.name =
+            ENTRY[key];
+
+
+        input.value =
+            fieldsToSubmit[key];
+
+
+        submitForm.appendChild(
+            input
+        );
+
+    });
+
+
+    document.body.appendChild(
+        submitForm
+    );
+
+
+    /*
+        送出至隱藏 iframe
+        頁面不會跳轉
+    */
+
+    submitForm.submit();
+
+
+    /*
+        移除暫時表單
+    */
+
+    submitForm.remove();
+
+
+    /*
+        清空前台輸入框
+    */
+
+    form.reset();
+
+    updateConditionalFields();
+
+
+    /*
+        顯示成功訊息
+    */
+
+    document.getElementById(
+        "submitMessage"
+    ).style.display =
+        "block";
+
+
+    /*
+        3 秒後淡出成功訊息
+    */
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "submitMessage"
+        ).style.display =
+            "none";
+
+    }, 5000);
+
+}
+
+</script>
+
+</body>
+</html>
+```
