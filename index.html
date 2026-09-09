@@ -2148,7 +2148,7 @@ footer {
                      SUBMIT
                 ================================================= -->
 
-                <button type="button" class="submit-button" onclick="submitRSVP()">
+                <button type="submit" class="submit-button">
                     送出回函 · SUBMIT RSVP
                 </button>
 
@@ -2512,7 +2512,7 @@ guestsInput.addEventListener(
 ========================================================= */
 
 function submitRSVP(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     const form = document.getElementById("rsvpForm");
     const guests = Number(document.getElementById("guests").value);
