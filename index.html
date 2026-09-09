@@ -2507,229 +2507,89 @@ guestsInput.addEventListener(
    HIDDEN IFRAME FORM SUBMISSION
 ========================================================= */
 
-function submitRSVP(event) {
+function submitRSVP() {
+    const form = document.getElementById("rsvpForm");
 
-    event.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const attendance = document.getElementById("attendance").value;
+    const relationship = document.getElementById("relationship").value;
+    const guests = document.getElementById("guests").value;
+    const childSeat = document.getElementById("childSeat").value;
+    const diet = document.getElementById("diet").value;
+    const message = document.getElementById("message").value.trim();
 
-
-    const form =
-        document.getElementById(
-            "rsvpForm"
-        );
-
-
-    /*
-        建立一個暫時的 POST Form
-    */
-
-    const submitForm =
-        document.createElement(
-            "form"
-        );
-
-
-    submitForm.method =
-        "POST";
-
-
-    submitForm.target =
-        "hidden_iframe";
-
-
-    submitForm.action =
-
-        "https://docs.google.com/forms/d/e/"
-        +
-        FORM_ID
-        +
-        "/formResponse";
-
-
-    /*
-        取得使用者實際輸入
-    */
-
-    const values = {
-
-        name:
-            document.getElementById(
-                "name"
-            ).value,
-
-        attendance:
-            document.getElementById(
-                "attendance"
-            ).value,
-
-        relationship:
-            document.getElementById(
-                "relationship"
-            ).value,
-
-        guests:
-            document.getElementById(
-                "guests"
-            ).value,
-
-        childSeat:
-            document.getElementById(
-                "childSeat"
-            ).value,
-
-        diet:
-            document.getElementById(
-                "diet"
-            ).value,
-
-        message:
-            document.getElementById(
-                "message"
-            ).value
-
-    };
-
-
-    /*
-        基本欄位
-    */
-
-    const fieldsToSubmit = {
-
-        name:
-            values.name,
-
-        attendance:
-            values.attendance,
-
-        relationship:
-            values.relationship,
-
-        guests:
-            values.guests,
-
-        message:
-            values.message
-
-    };
-
-
-    /*
-        午宴人數 > 0
-        才加入兒童座椅與飲食需求
-    */
-
-    if (
-        Number(values.guests) > 0
-    ) {
-
-        fieldsToSubmit.childSeat =
-            values.childSeat;
-
-        fieldsToSubmit.diet =
-            values.diet;
-
+    if (!name) {
+        alert("請填寫姓名");
+        return;
     }
 
+    if (!attendance) {
+        alert("請選擇是否出席");
+        return;
+    }
 
-    /*
-        建立 hidden input
-    */
+    if (!relationship) {
+        alert("請選擇與新人關係");
+        return;
+    }
 
-    Object
-    .keys(fieldsToSubmit)
-    .forEach(key => {
+    if (guests === "") {
+        alert("請填寫參加人數");
+        return;
+    }
 
-        if (!ENTRY[key]) {
+    // 建立真正送往 Google Forms 的表單
+    const postForm = document.createElement("form");
 
-            return;
+    postForm.method = "POST";
+    postForm.action =
+        "https://docs.google.com/forms/d/e/" +
+        FORM_ID +
+        "/formResponse";
 
+    postForm.target = "hidden_iframe";
+    postForm.style.display = "none";
+
+    function addField(name, value) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        postForm.appendChild(input);
+    }
+
+    addField(ENTRY.name, name);
+    addField(ENTRY.attendance, attendance);
+    addField(ENTRY.relationship, relationship);
+    addField(ENTRY.guests, guests);
+
+    // 有參加午宴才送這兩項
+    if (Number(guests) > 0) {
+        addField(ENTRY.childSeat, childSeat || "0");
+        addField(ENTRY.diet, diet || "正常(葷食)");
+    }
+
+    addField(ENTRY.message, message);
+
+    document.body.appendChild(postForm);
+
+    // 送出
+    postForm.submit();
+
+    // Google Forms 是跨網域，無法直接讀取回應內容
+    // 因此等待一下再顯示完成
+    setTimeout(() => {
+        document.getElementById("successMessage").classList.add("show");
+
+        form.reset();
+
+        if (typeof updateGuestFields === "function") {
+            updateGuestFields();
         }
 
-
-        const input =
-            document.createElement(
-                "input"
-            );
-
-
-        input.type =
-            "hidden";
-
-
-        input.name =
-            ENTRY[key];
-
-
-        input.value =
-            fieldsToSubmit[key];
-
-
-        submitForm.appendChild(
-            input
-        );
-
-    });
-
-
-    /*
-        加入頁面
-    */
-
-    document.body.appendChild(
-        submitForm
-    );
-
-
-    /*
-        背景送出
-        不離開婚禮網站
-    */
-
-    submitForm.submit();
-
-
-    /*
-        移除暫時 Form
-    */
-
-    submitForm.remove();
-
-
-    /*
-        清空前端輸入
-    */
-
-    form.reset();
-
-
-    updateConditionalFields();
-
-
-    /*
-        顯示成功訊息
-    */
-
-    document.getElementById(
-        "submitMessage"
-    ).style.display =
-        "block";
-
-
-    /*
-        五秒後隱藏訊息
-    */
-
-    setTimeout(() => {
-
-        document.getElementById(
-            "submitMessage"
-        ).style.display =
-            "none";
-
-    }, 5000);
-
+        postForm.remove();
+    }, 1500);
 }
-
 </script>
 
 </body>
