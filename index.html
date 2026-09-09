@@ -1938,7 +1938,6 @@ footer {
                 id="rsvpForm"
                 target="hidden_iframe"
                 method="POST"
-                onsubmit="submitRSVP(event)"
             >
 
 
@@ -2141,7 +2140,7 @@ footer {
                      SUBMIT
                 ================================================= -->
 
-                <<button type="button" onclick="submitRSVP()">
+                <button type="button" class="submit-button" onclick="submitRSVP()">
                     送出回函 · SUBMIT RSVP
                 </button>
 
@@ -2576,12 +2575,12 @@ function submitRSVP() {
     // Google Forms 是跨網域，無法直接讀取回應內容
     // 因此等待一下再顯示完成
     setTimeout(() => {
-        document.getElementById("successMessage").classList.add("show");
+        document.getElementById("submitMessage").style.display = "block";
 
         form.reset();
 
-        if (typeof updateGuestFields === "function") {
-            updateGuestFields();
+        if (typeof updateConditionalFields === "function") {
+            updateConditionalFields();
         }
 
         postForm.remove();
