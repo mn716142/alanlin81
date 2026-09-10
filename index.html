@@ -2484,6 +2484,35 @@ document
 
 });
 
+/* =========================================================
+   交通圖載入後重新計算 Accordion 高度
+========================================================= */
+
+document
+.querySelectorAll(".accordion-content img")
+.forEach(img => {
+
+    const refreshAccordionHeight = () => {
+        const content = img.closest(".accordion-content");
+
+        if (
+            content &&
+            content.parentElement.classList.contains("active")
+        ) {
+            content.style.maxHeight =
+                content.scrollHeight + "px";
+        }
+    };
+
+    img.addEventListener("load", refreshAccordionHeight);
+    window.addEventListener("resize", refreshAccordionHeight);
+
+    if (img.complete) {
+        refreshAccordionHeight();
+    }
+});
+
+
 
 /* =========================================================
    SMART RSVP
