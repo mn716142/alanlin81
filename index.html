@@ -2466,22 +2466,39 @@ document
                 就打開目前這一個
             */
 
-            if (!isActive) {
+          document
+.querySelectorAll(".accordion-content img")
+.forEach(img => {
 
-                item
-                .classList
-                .add("active");
+    const refreshAccordionHeight = () => {
+        const content =
+            img.closest(".accordion-content");
 
-
-                content.style.maxHeight =
-                    content.scrollHeight +
-                    "px";
-
-            }
-
+        if (
+            content &&
+            content.parentElement.classList.contains("active")
+        ) {
+            content.style.maxHeight =
+                content.scrollHeight + "px";
         }
+    };
+
+    // 圖片載入完成後重新計算
+    img.addEventListener(
+        "load",
+        refreshAccordionHeight
     );
 
+    // 螢幕尺寸改變時重新計算
+    window.addEventListener(
+        "resize",
+        refreshAccordionHeight
+    );
+
+    // 如果圖片已經載入完成
+    if (img.complete) {
+        refreshAccordionHeight();
+    }
 });
 
 
