@@ -2460,15 +2460,17 @@ function submitRSVP() {
     }, 1200);
 }
 </script>
-<audio id="bgMusic" loop=""><source src="wedding.mp3" type="audio/mpeg"/></audio>
-<button aria-label="播放音樂" class="music-toggle" id="musicToggle" title="播放音樂" type="button">♪</button><script>
+<audio id="bgMusic" loop=""><source src="wedding.mp3" type="audio/mpeg"/></audio><button aria-label="播放音樂" class="music-toggle" id="musicToggle" title="播放音樂" type="button">♪</button><script>
 (() => {
     const music = document.getElementById("bgMusic");
     const button = document.getElementById("musicToggle");
-    music.volume = 0.2;
     if (!music || !button) return;
 
     let playing = false;
+    let firstInteractionStarted = false;
+
+    // 預設音量 30%
+    music.volume = 0.3;
 
     const updateMusicButton = () => {
         button.textContent = playing ? "Ⅱ" : "♪";
@@ -2477,19 +2479,50 @@ function submitRSVP() {
         button.setAttribute("title", playing ? "暫停音樂" : "播放音樂");
     };
 
-    button.addEventListener("click", async () => {
+    const startMusic = async () => {
+        if (!music.paused) return true;
         try {
-            if (music.paused) {
-                await music.play();
-                playing = true;
-            } else {
-                music.pause();
-                playing = false;
-            }
+            await music.play();
+            playing = true;
+            updateMusicButton();
+            return true;
         } catch (e) {
             playing = false;
+            updateMusicButton();
+            return false;
         }
-        updateMusicButton();
+    };
+
+    // 電腦：進入網站後嘗試自動播放
+    window.addEventListener("load", () => {
+        startMusic();
+    });
+
+    // 手機：第一次點擊／觸控網頁任意位置後播放
+    const startOnFirstInteraction = (event) => {
+        if (firstInteractionStarted) return;
+        if (event.target.closest && event.target.closest("#musicToggle")) return;
+        firstInteractionStarted = true;
+        startMusic();
+        document.removeEventListener("pointerdown", startOnFirstInteraction);
+        document.removeEventListener("click", startOnFirstInteraction);
+    };
+
+    document.addEventListener("pointerdown", startOnFirstInteraction, { passive: true });
+    document.addEventListener("click", startOnFirstInteraction, { passive: true });
+
+    // 右下角按鈕：手動播放／暫停
+    button.addEventListener("click", async () => {
+        firstInteractionStarted = true;
+        if (music.paused) {
+            await startMusic();
+        } else {
+            music.pause();
+            playing = false;
+            updateMusicButton();
+        }
+        document.removeEventListener("pointerdown", startOnFirstInteraction);
+        document.removeEventListener("click", startOnFirstInteraction);
     });
 
     music.addEventListener("play", () => {
