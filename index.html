@@ -65,7 +65,6 @@
     --white:
         rgba(255,255,255,.94);
 }
-
 /* =====================================================
    簡易交通圖示
 ===================================================== */
@@ -94,6 +93,7 @@
         max-width: 100%;
     }
 }
+
 
 
 /* =====================================================
@@ -1920,39 +1920,58 @@ footer {
 
             </div>
 
-<div class="accordion-item">
 
-    <button
-        class="accordion-button"
-        type="button"
-    >
-        <span>
-            簡易交通圖示
-        </span>
 
-        <span class="accordion-arrow">
-            ＋
-        </span>
-    </button>
 
-    <div class="accordion-content">
+<!-- 簡易交通圖示 -->
 
-        <div class="accordion-content-inner transport-map-content">
+            <div class="accordion-item">
 
-            <img
-                class="transport-image"
-                src="https://i.postimg.cc/43Vbd9s2/S-102498344.jpg"
-                alt="簡易交通圖示"
-                loading="lazy"
-            >
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        簡易交通圖示
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner transport-map-content">
+
+                        <img
+                            class="transport-image"
+                            src="https://i.postimg.cc/43Vbd9s2/S-102498344.jpg"
+                            alt="簡易交通圖示"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
 
         </div>
 
     </div>
 
-</div>
 
     </div>
+
+
+    
 </section>
 
 
@@ -2180,13 +2199,81 @@ footer {
 
 
                 <!-- =================================================
+                     是否需要喜帖
+                ================================================= -->
+
+                <div class="field">
+                    <label for="needInvitation">
+                        是否需要喜帖 INVITATION
+                    </label>
+
+                    <select
+                        id="needInvitation"
+                        name="entry.1527557778"
+                        required
+                    >
+                        <option value="">
+                            請選擇
+                        </option>
+                        <option value="是">
+                            是
+                        </option>
+                        <option value="否">
+                            否
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- =================================================
+                     喜帖智慧條件欄位
+
+                     需要喜帖 = 是
+                     → 同時顯示電子喜帖與紙本喜帖
+                ================================================= -->
+
+                <div
+                    id="invitationFields"
+                    class="conditional"
+                >
+
+                    <div class="field">
+                        <label for="emailInvitation">
+                            電子喜帖 EMAIL INVITATION
+                        </label>
+
+                        <input
+                            type="email"
+                            id="emailInvitation"
+                            name="entry.1384555557"
+                            placeholder="請填電子郵件"
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="paperInvitation">
+                            紙本喜帖 PAPER INVITATION
+                        </label>
+
+                        <input
+                            type="text"
+                            id="paperInvitation"
+                            name="entry.1686724517"
+                            placeholder="請填郵遞地址"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
                      備註
                 ================================================= -->
 
                 <div class="field">
 
                     <label for="message">
-                        備註(素食請打上人數) MESSAGE／ 或給新人的祝福 BLESSINGS
+                        備註(選素食者幫我打上人數)MESSAGE ／ 或給新人的祝福 BLESSINGS
                     </label>
 
                     <textarea
@@ -2484,6 +2571,7 @@ document
 
 });
 
+
 /* =========================================================
    交通圖載入後重新計算 Accordion 高度
 ========================================================= */
@@ -2511,7 +2599,6 @@ document
         refreshAccordionHeight();
     }
 });
-
 
 
 /* =========================================================
@@ -2590,6 +2677,82 @@ guestsInput.addEventListener(
 
 
 /* =========================================================
+   喜帖智慧條件
+
+   是否需要喜帖 = 是
+   → 同時顯示電子喜帖與紙本喜帖
+
+   是否需要喜帖 = 否
+   → 隱藏並清除兩個欄位
+========================================================= */
+
+const needInvitation =
+    document.getElementById(
+        "needInvitation"
+    );
+
+const invitationFields =
+    document.getElementById(
+        "invitationFields"
+    );
+
+const emailInvitation =
+    document.getElementById(
+        "emailInvitation"
+    );
+
+const paperInvitation =
+    document.getElementById(
+        "paperInvitation"
+    );
+
+
+function updateInvitationFields() {
+
+    const needsInvitation =
+        needInvitation.value === "是";
+
+    if (needsInvitation) {
+
+        invitationFields
+            .classList
+            .add("show");
+
+        emailInvitation.disabled = false;
+        paperInvitation.disabled = false;
+
+        emailInvitation.required = true;
+        paperInvitation.required = true;
+
+    } else {
+
+        invitationFields
+            .classList
+            .remove("show");
+
+        emailInvitation.disabled = true;
+        paperInvitation.disabled = true;
+
+        emailInvitation.required = false;
+        paperInvitation.required = false;
+
+        emailInvitation.value = "";
+        paperInvitation.value = "";
+    }
+
+}
+
+
+needInvitation.addEventListener(
+    "change",
+    updateInvitationFields
+);
+
+// 初始狀態：喜帖欄位先隱藏
+updateInvitationFields();
+
+
+/* =========================================================
    HIDDEN IFRAME FORM SUBMISSION
 ========================================================= */
 
@@ -2599,6 +2762,9 @@ function submitRSVP() {
     const guests = Number(document.getElementById("guests").value);
     const childSeat = document.getElementById("childSeat");
     const diet = document.getElementById("diet");
+    const needInvitation = document.getElementById("needInvitation");
+    const emailInvitation = document.getElementById("emailInvitation");
+    const paperInvitation = document.getElementById("paperInvitation");
 
     // 先檢查必要欄位
     if (!form.checkValidity()) {
@@ -2617,6 +2783,17 @@ function submitRSVP() {
         diet.value = "";
     }
 
+    // 不需要喜帖時，不送 Email／地址欄位
+    if (needInvitation.value === "是") {
+        emailInvitation.disabled = false;
+        paperInvitation.disabled = false;
+    } else {
+        emailInvitation.disabled = true;
+        paperInvitation.disabled = true;
+        emailInvitation.value = "";
+        paperInvitation.value = "";
+    }
+
     // 明確呼叫原生 HTMLFormElement.submit()，避免被其他元素或 JS 影響。
     HTMLFormElement.prototype.submit.call(form);
 
@@ -2626,6 +2803,7 @@ function submitRSVP() {
         if (message) message.style.display = "block";
         form.reset();
         updateConditionalFields();
+        updateInvitationFields();
         childSeat.disabled = false;
         diet.disabled = false;
     }, 1200);
@@ -2633,4 +2811,4 @@ function submitRSVP() {
 </script>
 </body>
 </html>
-```
+
