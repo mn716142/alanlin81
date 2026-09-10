@@ -65,6 +65,35 @@
     --white:
         rgba(255,255,255,.94);
 }
+/* =====================================================
+   簡易交通圖示
+===================================================== */
+
+ .transport-map-content {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.transport-image {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: auto !important;
+    margin: 8px auto 0;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(35,45,40,.16);
+}
+
+@media (max-width: 600px) {
+    .transport-image {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
 
 
 /* =====================================================
@@ -1895,7 +1924,50 @@ footer {
         </div>
 
     </div>
+            <!-- 簡易交通圖示 -->
 
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-button"
+                    type="button"
+                >
+
+                    <span>
+                        簡易交通圖示
+                    </span>
+
+                    <span class="accordion-arrow">
+                        ＋
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <div class="accordion-content-inner transport-map-content">
+
+                        <img
+                            class="transport-image"
+                            src="https://i.postimg.cc/43Vbd9s2/S-102498344.jpg"
+                            alt="簡易交通圖示"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    
 </section>
 
 
