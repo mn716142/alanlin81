@@ -2430,8 +2430,23 @@ function updateInvitationFields() {
 
 needInvitation.addEventListener(
     "change",
-    updateInvitationFields
+    () => {
+        updateInvitationFields();
+        emailInvitation.setCustomValidity("");
+        paperInvitation.setCustomValidity("");
+    }
 );
+
+// 填寫任一欄位後，清除「至少填一項」的錯誤
+emailInvitation.addEventListener("input", () => {
+    emailInvitation.setCustomValidity("");
+    paperInvitation.setCustomValidity("");
+});
+
+paperInvitation.addEventListener("input", () => {
+    emailInvitation.setCustomValidity("");
+    paperInvitation.setCustomValidity("");
+});
 
 // 初始狀態：喜帖欄位先隱藏
 updateInvitationFields();
@@ -2450,6 +2465,23 @@ function submitRSVP() {
     const needInvitation = document.getElementById("needInvitation");
     const emailInvitation = document.getElementById("emailInvitation");
     const paperInvitation = document.getElementById("paperInvitation");
+
+    // 需要喜帖時，電子喜帖／紙本喜帖至少填寫一項
+    if (
+        needInvitation.value === "是" &&
+        !emailInvitation.value.trim() &&
+        !paperInvitation.value.trim()
+    ) {
+        emailInvitation.setCustomValidity(
+            "請至少填寫電子喜帖或紙本喜帖其中一項。"
+        );
+        paperInvitation.setCustomValidity(
+            "請至少填寫電子喜帖或紙本喜帖其中一項。"
+        );
+    } else {
+        emailInvitation.setCustomValidity("");
+        paperInvitation.setCustomValidity("");
+    }
 
     // 先檢查必要欄位
     if (!form.checkValidity()) {
@@ -2573,4 +2605,3 @@ function submitRSVP() {
 })();
 </script></body>
 </html>
-
