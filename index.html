@@ -1917,19 +1917,18 @@ footer {
                     ================================================= -->
 <div class="field">
 <label for="diet">
-                            飲食需求 DIETARY REQUIREMENTS
+                            素食需求人數 VEGETARIAN MEALS
                         </label>
-<select id="diet" name="entry.738087618">
-<option value="">
-                                請選擇
-                            </option>
-<option value="正常(葷食)">
-                                正常(葷食)
-                            </option>
-<option value="全素">
-                                全素
-                            </option>
-</select>
+<input
+    id="diet"
+    name="entry.738087618"
+    type="number"
+    min="0"
+    max="20"
+    inputmode="numeric"
+    value=""
+    placeholder="請填寫素食人數"
+/>
 </div>
 </div>
 <!-- =================================================
