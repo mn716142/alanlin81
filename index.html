@@ -1985,6 +1985,17 @@ footer {
 <button class="submit-button" onclick="submitRSVP()" type="button">
                     送出回函 · SUBMIT RSVP
                 </button>
+<div id="formErrorMessage" style="
+    display:none;
+    margin:0 0 18px;
+    padding:12px 15px;
+    border-radius:9px;
+    background:rgba(212,163,115,.12);
+    border:1px solid rgba(212,163,115,.35);
+    color:#8a6845;
+    font-size:14px;
+    text-align:center;
+"></div>
 <div class="submit-message" id="submitMessage">
                     謝謝你的回覆，我們婚禮見。
                 </div>
@@ -2349,6 +2360,17 @@ function updateConditionalFields() {
 }
 
 
+document.querySelectorAll("#rsvpForm input, #rsvpForm select, #rsvpForm textarea").forEach(field => {
+    field.addEventListener("input", () => {
+        const box = document.getElementById("formErrorMessage");
+        if (box) box.style.display = "none";
+    });
+    field.addEventListener("change", () => {
+        const box = document.getElementById("formErrorMessage");
+        if (box) box.style.display = "none";
+    });
+});
+
 guestsInput.addEventListener(
     "input",
     updateConditionalFields
@@ -2483,71 +2505,78 @@ function submitRSVP() {
         paperInvitation.setCustomValidity("");
     }
 
-    // 逐項檢查必填欄位，讓提示訊息更清楚
-    const nameInput = document.getElementById("name");
-    const attendanceInput = document.getElementById("attendance");
-    const relationshipInput = document.getElementById("relationship");
-    const guestsInputCheck = document.getElementById("guests");
+    const formErrorMessage = document.getElementById("formErrorMessage");
 
-    // 清除瀏覽器原生提示，改用自訂訊息
-    nameInput.setCustomValidity("");
-    attendanceInput.setCustomValidity("");
-    relationshipInput.setCustomValidity("");
-    guestsInputCheck.setCustomValidity("");
-    needInvitation.setCustomValidity("");
+    const showFormError = (message, target) => {
+        if (formErrorMessage) {
+            formErrorMessage.textContent = message;
+            formErrorMessage.style.display = "block";
+        }
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+            target.focus({ preventScroll: true });
+        }
+    };
 
-    if (!nameInput.value.trim()) {
-        nameInput.setCustomValidity("請填寫姓名。");
-        nameInput.reportValidity();
+    const clearFormError = () => {
+        if (formErrorMessage) {
+            formErrorMessage.textContent = "";
+            formErrorMessage.style.display = "none";
+        }
+    };
+
+    clearFormError();
+
+    if (!document.getElementById("name").value.trim()) {
+        showFormError("請填寫姓名。", document.getElementById("name"));
         return;
     }
 
-    if (!attendanceInput.value) {
-        attendanceInput.setCustomValidity("請選擇是否出席。");
-        attendanceInput.reportValidity();
+    if (!document.getElementById("attendance").value) {
+        showFormError("請選擇是否出席。", document.getElementById("attendance"));
         return;
     }
 
-    if (!relationshipInput.value) {
-        relationshipInput.setCustomValidity("請選擇出席身分／關係。");
-        relationshipInput.reportValidity();
+    if (!document.getElementById("relationship").value) {
+        showFormError("請選擇出席身分／關係。", document.getElementById("relationship"));
         return;
     }
 
     if (
-        guestsInputCheck.value === "" ||
-        Number(guestsInputCheck.value) < 0
+        document.getElementById("guests").value === "" ||
+        Number(document.getElementById("guests").value) < 0
     ) {
-        guestsInputCheck.setCustomValidity("請填寫參加午宴人數。");
-        guestsInputCheck.reportValidity();
+        showFormError("請填寫參加午宴人數。", document.getElementById("guests"));
         return;
     }
 
     if (!needInvitation.value) {
-        needInvitation.setCustomValidity("請選擇是否需要喜帖。");
-        needInvitation.reportValidity();
+        showFormError("請選擇是否需要喜帖。", needInvitation);
         return;
     }
 
-    // 需要喜帖時，電子喜帖／紙本喜帖至少填寫一項
     if (
         needInvitation.value === "是" &&
         !emailInvitation.value.trim() &&
         !paperInvitation.value.trim()
     ) {
-        emailInvitation.setCustomValidity(
-            "請至少填寫電子喜帖或紙本喜帖其中一項。"
+        showFormError(
+            "請至少填寫電子喜帖或紙本喜帖其中一項。",
+            emailInvitation
         );
-        paperInvitation.setCustomValidity(
-            "請至少填寫電子喜帖或紙本喜帖其中一項。"
-        );
-        emailInvitation.reportValidity();
         return;
     }
 
-    // 檢查 Email 格式等其他 HTML 原生驗證
+    // Email 等其他 HTML 原生格式驗證
     if (!form.checkValidity()) {
-        form.reportValidity();
+        const invalidField = form.querySelector(":invalid");
+        if (invalidField) {
+            let message = "請確認欄位填寫正確。";
+            if (invalidField.type === "email") {
+                message = "請填寫正確的電子郵件格式。";
+            }
+            showFormError(message, invalidField);
+        }
         return;
     }
 
