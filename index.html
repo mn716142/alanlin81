@@ -1391,6 +1391,36 @@ footer {
     color: rgba(255,255,255,.62);
     letter-spacing: .08em;
 }
+/* =====================================================
+   MOBILE TRANSPORT TEXT FIX
+   手機版交通資訊允許長文字自然換行，避免被裁切
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .transport .accordion-content,
+    .transport .accordion-content-inner {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .transport .accordion-content-inner {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    /* 桌機為了保持站名／地址完整而使用 no-wrap，
+       手機版改為可換行，避免超出畫面 */
+    .transport .accordion-content-inner .no-wrap {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+    }
+}
+
+    
 </style>
 <style>
 .music-toggle {
