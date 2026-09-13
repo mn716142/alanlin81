@@ -2483,7 +2483,69 @@ function submitRSVP() {
         paperInvitation.setCustomValidity("");
     }
 
-    // 先檢查必要欄位
+    // 逐項檢查必填欄位，讓提示訊息更清楚
+    const nameInput = document.getElementById("name");
+    const attendanceInput = document.getElementById("attendance");
+    const relationshipInput = document.getElementById("relationship");
+    const guestsInputCheck = document.getElementById("guests");
+
+    // 清除瀏覽器原生提示，改用自訂訊息
+    nameInput.setCustomValidity("");
+    attendanceInput.setCustomValidity("");
+    relationshipInput.setCustomValidity("");
+    guestsInputCheck.setCustomValidity("");
+    needInvitation.setCustomValidity("");
+
+    if (!nameInput.value.trim()) {
+        nameInput.setCustomValidity("請填寫姓名。");
+        nameInput.reportValidity();
+        return;
+    }
+
+    if (!attendanceInput.value) {
+        attendanceInput.setCustomValidity("請選擇是否出席。");
+        attendanceInput.reportValidity();
+        return;
+    }
+
+    if (!relationshipInput.value) {
+        relationshipInput.setCustomValidity("請選擇出席身分／關係。");
+        relationshipInput.reportValidity();
+        return;
+    }
+
+    if (
+        guestsInputCheck.value === "" ||
+        Number(guestsInputCheck.value) < 0
+    ) {
+        guestsInputCheck.setCustomValidity("請填寫參加午宴人數。");
+        guestsInputCheck.reportValidity();
+        return;
+    }
+
+    if (!needInvitation.value) {
+        needInvitation.setCustomValidity("請選擇是否需要喜帖。");
+        needInvitation.reportValidity();
+        return;
+    }
+
+    // 需要喜帖時，電子喜帖／紙本喜帖至少填寫一項
+    if (
+        needInvitation.value === "是" &&
+        !emailInvitation.value.trim() &&
+        !paperInvitation.value.trim()
+    ) {
+        emailInvitation.setCustomValidity(
+            "請至少填寫電子喜帖或紙本喜帖其中一項。"
+        );
+        paperInvitation.setCustomValidity(
+            "請至少填寫電子喜帖或紙本喜帖其中一項。"
+        );
+        emailInvitation.reportValidity();
+        return;
+    }
+
+    // 檢查 Email 格式等其他 HTML 原生驗證
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
