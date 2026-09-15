@@ -2475,46 +2475,55 @@ updateInvitationFields();
 
 
 /* =========================================================
-   HIDDEN IFRAME FORM SUBMISSION
+   GOOGLE FORM 收件加強版
+   - 送出前完整檢查
+   - 喜帖：電子／紙本至少填一項
+   - 防止重複快速送出
+   - hidden iframe 完成後才顯示成功
+   - 送出後才清除表單
 ========================================================= */
+
+let isSubmitting = false;
 
 function submitRSVP() {
 
+    if (isSubmitting) return;
+
     const form = document.getElementById("rsvpForm");
-    const guests = Number(document.getElementById("guests").value);
+    const name = document.getElementById("name");
+    const attendance = document.getElementById("attendance");
+    const relationship = document.getElementById("relationship");
+    const guestsInput = document.getElementById("guests");
+    const guests = Number(guestsInput.value);
     const childSeat = document.getElementById("childSeat");
     const diet = document.getElementById("diet");
     const needInvitation = document.getElementById("needInvitation");
     const emailInvitation = document.getElementById("emailInvitation");
     const paperInvitation = document.getElementById("paperInvitation");
-
-    // 需要喜帖時，電子喜帖／紙本喜帖至少填寫一項
-    if (
-        needInvitation.value === "是" &&
-        !emailInvitation.value.trim() &&
-        !paperInvitation.value.trim()
-    ) {
-        emailInvitation.setCustomValidity(
-            "請至少填寫電子喜帖或紙本喜帖其中一項。"
-        );
-        paperInvitation.setCustomValidity(
-            "請至少填寫電子喜帖或紙本喜帖其中一項。"
-        );
-    } else {
-        emailInvitation.setCustomValidity("");
-        paperInvitation.setCustomValidity("");
-    }
-
+    const submitButton = form.querySelector(".submit-button");
     const formErrorMessage = document.getElementById("formErrorMessage");
+    const submitMessage = document.getElementById("submitMessage");
+    const iframe = document.getElementById("hidden_iframe");
 
     const showFormError = (message, target) => {
         if (formErrorMessage) {
             formErrorMessage.textContent = message;
             formErrorMessage.style.display = "block";
         }
+
         if (target) {
-            target.scrollIntoView({ behavior: "smooth", block: "center" });
-            target.focus({ preventScroll: true });
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            setTimeout(() => {
+                try {
+                    target.focus({ preventScroll: true });
+                } catch (e) {
+                    target.focus();
+                }
+            }, 300);
         }
     };
 
@@ -2527,96 +2536,181 @@ function submitRSVP() {
 
     clearFormError();
 
-    if (!document.getElementById("name").value.trim()) {
-        showFormError("請填寫姓名。", document.getElementById("name"));
+    // ① 姓名
+    if (!name.value.trim()) {
+        showFormError("請填寫姓名。", name);
         return;
     }
 
-    if (!document.getElementById("attendance").value) {
-        showFormError("請選擇是否出席。", document.getElementById("attendance"));
+    // ② 是否出席
+    if (!attendance.value) {
+        showFormError("請選擇是否出席。", attendance);
         return;
     }
 
-    if (!document.getElementById("relationship").value) {
-        showFormError("請選擇出席身分／關係。", document.getElementById("relationship"));
+    // ③ 出席身分
+    if (!relationship.value) {
+        showFormError("請選擇出席身分／關係。", relationship);
         return;
     }
 
+    // ④ 午宴人數
     if (
-        document.getElementById("guests").value === "" ||
-        Number(document.getElementById("guests").value) < 0
+        guestsInput.value === "" ||
+        !Number.isFinite(guests) ||
+        guests < 0 ||
+        guests > 20
     ) {
-        showFormError("請填寫參加午宴人數。", document.getElementById("guests"));
+        showFormError("請填寫參加午宴人數。", guestsInput);
         return;
     }
 
+    // ⑤ 喜帖
     if (!needInvitation.value) {
         showFormError("請選擇是否需要喜帖。", needInvitation);
         return;
     }
 
+    // ⑥ 需要喜帖時：電子／紙本至少一項
     if (
         needInvitation.value === "是" &&
         !emailInvitation.value.trim() &&
         !paperInvitation.value.trim()
     ) {
         showFormError(
-            "請至少填寫電子喜帖或紙本喜帖其中一項。",
+            "需要喜帖時，電子喜帖或紙本喜帖至少填寫一項。",
             emailInvitation
         );
         return;
     }
 
-    // Email 等其他 HTML 原生格式驗證
-    if (!form.checkValidity()) {
-        const invalidField = form.querySelector(":invalid");
-        if (invalidField) {
-            let message = "請確認欄位填寫正確。";
-            if (invalidField.type === "email") {
-                message = "請填寫正確的電子郵件格式。";
-            }
-            showFormError(message, invalidField);
-        }
+    // ⑦ Email 格式
+    if (
+        needInvitation.value === "是" &&
+        emailInvitation.value.trim() &&
+        !emailInvitation.checkValidity()
+    ) {
+        showFormError("請填寫正確的電子郵件格式。", emailInvitation);
         return;
     }
 
-    // 午宴人數為 0 時，不送兒童座椅與飲食欄位
+    // ⑧ 其他 HTML 格式驗證
+    if (!form.checkValidity()) {
+        const invalidField = form.querySelector(":invalid");
+
+        if (invalidField) {
+            showFormError(
+                invalidField.type === "email"
+                    ? "請填寫正確的電子郵件格式。"
+                    : "請確認欄位填寫正確。",
+                invalidField
+            );
+        }
+
+        return;
+    }
+
+    // 送出前設定真正要送給 Google Forms 的欄位
     if (guests > 0) {
         childSeat.disabled = false;
         diet.disabled = false;
     } else {
-        childSeat.disabled = true;
-        diet.disabled = true;
         childSeat.value = "";
         diet.value = "";
+        childSeat.disabled = true;
+        diet.disabled = true;
     }
 
-    // 不需要喜帖時，不送 Email／地址欄位
     if (needInvitation.value === "是") {
         emailInvitation.disabled = false;
         paperInvitation.disabled = false;
     } else {
-        emailInvitation.disabled = true;
-        paperInvitation.disabled = true;
         emailInvitation.value = "";
         paperInvitation.value = "";
+        emailInvitation.disabled = true;
+        paperInvitation.disabled = true;
     }
 
-    // 明確呼叫原生 HTMLFormElement.submit()，避免被其他元素或 JS 影響。
-    HTMLFormElement.prototype.submit.call(form);
+    // 防止重複點擊
+    isSubmitting = true;
 
-    // Google Forms 在 hidden iframe 中接收資料，網站本身不跳頁。
-    setTimeout(() => {
-        const message = document.getElementById("submitMessage");
-        if (message) message.style.display = "block";
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "送出中 · PLEASE WAIT";
+        submitButton.style.opacity = "0.65";
+        submitButton.style.cursor = "wait";
+    }
+
+    if (submitMessage) {
+        submitMessage.style.display = "none";
+    }
+
+    /*
+       Google Forms hidden iframe 收到回應後會觸發 load。
+       成功前不清除使用者資料。
+    */
+    let completed = false;
+
+    const finishSubmission = () => {
+        if (completed) return;
+        completed = true;
+
+        if (submitMessage) {
+            submitMessage.textContent =
+                "謝謝你的回覆，我們已收到你的回函，婚禮見。";
+            submitMessage.style.display = "block";
+        }
+
         form.reset();
         updateConditionalFields();
         updateInvitationFields();
+
         childSeat.disabled = false;
         diet.disabled = false;
-    }, 1200);
-}
-</script>
+
+        if (formErrorMessage) {
+            formErrorMessage.style.display = "none";
+        }
+
+        isSubmitting = false;
+
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "送出回函 · SUBMIT RSVP";
+            submitButton.style.opacity = "";
+            submitButton.style.cursor = "";
+        }
+
+        iframe.removeEventListener("load", finishSubmission);
+    };
+
+    iframe.addEventListener("load", finishSubmission, { once: true });
+
+    HTMLFormElement.prototype.submit.call(form);
+
+    /*
+       網路非常慢時：
+       不清除資料，讓使用者可以再次嘗試。
+    */
+    setTimeout(() => {
+        if (!completed) {
+            if (formErrorMessage) {
+                formErrorMessage.textContent =
+                    "目前網路回應較慢，請稍候確認是否送出成功；你的資料尚未清除。";
+                formErrorMessage.style.display = "block";
+            }
+
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "重新送出回函 · SUBMIT RSVP";
+                submitButton.style.opacity = "";
+                submitButton.style.cursor = "";
+            }
+
+            isSubmitting = false;
+        }
+    }, 10000);
+}</script>
 <audio id="bgMusic" loop=""><source src="wedding.mp3" type="audio/mpeg"/></audio><button aria-label="播放音樂" class="music-toggle" id="musicToggle" title="播放音樂" type="button">♪</button><script>
 (() => {
     const music = document.getElementById("bgMusic");
