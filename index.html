@@ -2486,7 +2486,6 @@ updateInvitationFields();
 let isSubmitting = false;
 
 function submitRSVP() {
-
     if (isSubmitting) return;
 
     const form = document.getElementById("rsvpForm");
@@ -2510,19 +2509,11 @@ function submitRSVP() {
             formErrorMessage.textContent = message;
             formErrorMessage.style.display = "block";
         }
-
         if (target) {
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
             setTimeout(() => {
-                try {
-                    target.focus({ preventScroll: true });
-                } catch (e) {
-                    target.focus();
-                }
+                try { target.focus({ preventScroll: true }); }
+                catch (e) { target.focus(); }
             }, 300);
         }
     };
@@ -2536,81 +2527,44 @@ function submitRSVP() {
 
     clearFormError();
 
-    // ① 姓名
     if (!name.value.trim()) {
-        showFormError("請填寫姓名。", name);
-        return;
+        showFormError("請填寫姓名。", name); return;
     }
-
-    // ② 是否出席
     if (!attendance.value) {
-        showFormError("請選擇是否出席。", attendance);
-        return;
+        showFormError("請選擇是否出席。", attendance); return;
     }
-
-    // ③ 出席身分
     if (!relationship.value) {
-        showFormError("請選擇出席身分／關係。", relationship);
-        return;
+        showFormError("請選擇出席身分／關係。", relationship); return;
     }
-
-    // ④ 午宴人數
-    if (
-        guestsInput.value === "" ||
-        !Number.isFinite(guests) ||
-        guests < 0 ||
-        guests > 20
-    ) {
-        showFormError("請填寫參加午宴人數。", guestsInput);
-        return;
+    if (guestsInput.value === "" || !Number.isFinite(guests) || guests < 0 || guests > 20) {
+        showFormError("請填寫參加午宴人數。", guestsInput); return;
     }
-
-    // ⑤ 喜帖
     if (!needInvitation.value) {
-        showFormError("請選擇是否需要喜帖。", needInvitation);
-        return;
+        showFormError("請選擇是否需要喜帖。", needInvitation); return;
     }
-
-    // ⑥ 需要喜帖時：電子／紙本至少一項
-    if (
-        needInvitation.value === "是" &&
+    if (needInvitation.value === "是" &&
         !emailInvitation.value.trim() &&
-        !paperInvitation.value.trim()
-    ) {
-        showFormError(
-            "需要喜帖時，電子喜帖或紙本喜帖至少填寫一項。",
-            emailInvitation
-        );
+        !paperInvitation.value.trim()) {
+        showFormError("需要喜帖時，電子喜帖或紙本喜帖至少填寫一項。", emailInvitation);
         return;
     }
-
-    // ⑦ Email 格式
-    if (
-        needInvitation.value === "是" &&
+    if (needInvitation.value === "是" &&
         emailInvitation.value.trim() &&
-        !emailInvitation.checkValidity()
-    ) {
+        !emailInvitation.checkValidity()) {
         showFormError("請填寫正確的電子郵件格式。", emailInvitation);
         return;
     }
-
-    // ⑧ 其他 HTML 格式驗證
     if (!form.checkValidity()) {
         const invalidField = form.querySelector(":invalid");
-
         if (invalidField) {
             showFormError(
-                invalidField.type === "email"
-                    ? "請填寫正確的電子郵件格式。"
-                    : "請確認欄位填寫正確。",
+                invalidField.type === "email" ? "請填寫正確的電子郵件格式。" : "請確認欄位填寫正確。",
                 invalidField
             );
         }
-
         return;
     }
 
-    // 送出前設定真正要送給 Google Forms 的欄位
     if (guests > 0) {
         childSeat.disabled = false;
         diet.disabled = false;
@@ -2631,86 +2585,75 @@ function submitRSVP() {
         paperInvitation.disabled = true;
     }
 
-    // 防止重複點擊
     isSubmitting = true;
 
     if (submitButton) {
         submitButton.disabled = true;
-        submitButton.textContent = "送出中 · PLEASE WAIT";
+        submitButton.textContent = "正在送出 · PLEASE WAIT";
         submitButton.style.opacity = "0.65";
         submitButton.style.cursor = "wait";
     }
-
-    if (submitMessage) {
-        submitMessage.style.display = "none";
-    }
+    if (submitMessage) submitMessage.style.display = "none";
 
     /*
-       Google Forms hidden iframe 收到回應後會觸發 load。
-       成功前不清除使用者資料。
+      注意：跨網域 hidden iframe 的 load 無法證明 Google Form 已寫入回覆。
+      因此不再自動清空表單，也不再宣稱 100% 收件成功。
     */
-    let completed = false;
+    let responseReturned = false;
 
     const finishSubmission = () => {
-        if (completed) return;
-        completed = true;
+        if (responseReturned) return;
+        responseReturned = true;
+
+        if (formErrorMessage) {
+            formErrorMessage.textContent =
+                "Google Form 已回應，但網站無法讀取實際收件結果。為避免誤判，資料暫時不會清除。";
+            formErrorMessage.style.display = "block";
+        }
 
         if (submitMessage) {
             submitMessage.textContent =
-                "謝謝你的回覆，我們已收到你的回函，婚禮見。";
+                "已送出請求；為確認資料確實進入 Google Form，請至表單「回覆」查看。";
             submitMessage.style.display = "block";
         }
 
-        form.reset();
-        updateConditionalFields();
-        updateInvitationFields();
-
-        childSeat.disabled = false;
-        diet.disabled = false;
-
-        if (formErrorMessage) {
-            formErrorMessage.style.display = "none";
-        }
-
         isSubmitting = false;
-
         if (submitButton) {
             submitButton.disabled = false;
-            submitButton.textContent = "送出回函 · SUBMIT RSVP";
+            submitButton.textContent = "再次送出 · RESUBMIT RSVP";
             submitButton.style.opacity = "";
             submitButton.style.cursor = "";
         }
-
         iframe.removeEventListener("load", finishSubmission);
     };
 
     iframe.addEventListener("load", finishSubmission, { once: true });
-
     HTMLFormElement.prototype.submit.call(form);
 
-    /*
-       網路非常慢時：
-       不清除資料，讓使用者可以再次嘗試。
-    */
     setTimeout(() => {
-        if (!completed) {
+        if (!responseReturned) {
+            iframe.removeEventListener("load", finishSubmission);
+
             if (formErrorMessage) {
                 formErrorMessage.textContent =
-                    "目前網路回應較慢，請稍候確認是否送出成功；你的資料尚未清除。";
+                    "目前沒有收到 Google Form 的回應。資料尚未清除，請稍後再試。";
                 formErrorMessage.style.display = "block";
             }
+            if (submitMessage) submitMessage.style.display = "none";
 
+            isSubmitting = false;
             if (submitButton) {
                 submitButton.disabled = false;
-                submitButton.textContent = "重新送出回函 · SUBMIT RSVP";
+                submitButton.textContent = "再次送出 · RESUBMIT RSVP";
                 submitButton.style.opacity = "";
                 submitButton.style.cursor = "";
             }
-
-            isSubmitting = false;
         }
-    }, 10000);
-}</script>
+    }, 20000);
+}
+
+
+</script>
 <audio id="bgMusic" loop=""><source src="wedding.mp3" type="audio/mpeg"/></audio><button aria-label="播放音樂" class="music-toggle" id="musicToggle" title="播放音樂" type="button">♪</button><script>
 (() => {
     const music = document.getElementById("bgMusic");
